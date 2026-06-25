@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MyFile Cloud</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#181818;
+}
+
+.header{
+    background:#0096FF;
+    color:white;
+    padding:20px;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    max-width:700px;
+    margin:40px auto;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 20px #ccc;
+}
+
+.file{
+    padding:15px;
+    border-bottom:1px solid #ddd;
+}
+
+.download{
+    display:inline-block;
+    background:#18a999;
+    color:white;
+    padding:10px 20px;
+    text-decoration:none;
+    border-radius:8px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+RootAkeses Cloud
+</div>
+
+
+<div class="container">
+
+<div class="card">
+
+<h2>📂 Daftar File</h2>
+
+<div id="list">
+Memuat...
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+const user = "zeronightalt";
+const repo = "zeronightalt.github.io";
+
+
+const folder = "files";
+
+
+fetch(`https://api.github.com/repos/${user}/${repo}/contents/${folder}`)
+
+.then(res => res.json())
+
+.then(data => {
+
+
+let html = "";
+
+
+data.forEach(file => {
+
+
+html += `
+
+<div class="file">
+
+📦 ${file.name}
+
+<br><br>
+
+<a class="download"
+href="${file.download_url}"
+download>
+
+⬇ Download
+
+</a>
+
+
+</div>
+
+`;
+
+
+});
+
+
+document.getElementById("list").innerHTML = html;
+
+
+})
+
+
+.catch(()=>{
+
+document.getElementById("list").innerHTML =
+"Gagal membaca folder";
+
+});
+
+
+</script>
+
+
+
+</body>
+
+</html>
