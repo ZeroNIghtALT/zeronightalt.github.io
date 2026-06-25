@@ -104,7 +104,7 @@ Loading...
 <script>
 
 
-fetch("files.json")
+fetch("files.json?v=" + Date.now())
 
 .then(r=>r.json())
 
