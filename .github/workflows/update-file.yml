@@ -1,58 +1,55 @@
 name: Generate File List
 
 on:
-  push:
-    paths:
-      - "files/**"
+push:
+paths:
+- "files/**"
 
 jobs:
+generate:
+runs-on: ubuntu-latest
 
-  generate:
+```
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
 
-    runs-on: ubuntu-latest
+  - name: Create files.json
+    run: |
+      shopt -s nullglob
 
-    steps:
+      echo "[" > files.json
 
-    - name: Ambil repo
-      uses: actions/checkout@v4
+      first=true
 
+      for file in files/*; do
+        [ -f "$file" ] || continue
 
-    - name: Buat files.json
-      run: |
+        if [ "$first" = true ]; then
+          first=false
+        else
+          echo "," >> files.json
+        fi
 
-        echo "[" > files.json
+        name=$(basename "$file")
 
-        first=true
+        printf '{"nama":"%s","url":"https://raw.githubusercontent.com/%s/main/%s"}' \
+          "$name" "${{ github.repository }}" "$file" >> files.json
+      done
 
-        for file in files/*; do
+      echo "]" >> files.json
 
-          if [ "$first" = true ]; then
-            first=false
-          else
-            echo "," >> files.json
-          fi
+      echo "Generated files.json:"
+      cat files.json
 
+  - name: Commit files.json
+    run: |
+      git config --global user.name "github-actions"
+      git config --global user.email "actions@github.com"
 
-          name=$(basename "$file")
+      git add files.json
 
+      git diff --staged --quiet || git commit -m "update file list"
 
-          echo "{\"nama\":\"$name\",\"url\":\"https://raw.githubusercontent.com/${{ github.repository }}/main/$file\"}" >> files.json
-
-
-        done
-
-
-        echo "]" >> files.json
-
-
-
-    - name: Commit files.json
-
-      run: |
-
-        git config --global user.name "github-actions"
-
-        git config --global user.email "actions@github.com"
-
-
-        git add files.json
+      git push
+```
