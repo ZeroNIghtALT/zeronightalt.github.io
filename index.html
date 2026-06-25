@@ -16,14 +16,24 @@
   gap:67%;
   color:#ffffff;
  font-family:Roboto;
+  justify-content: space-between;
   }
 
+        hr {
+            border: none;
+            border-top: 2px dashed #999;
+            margin-bottom: 15px;
+        }
   
 header button{
-height: 30px;
-width: 100px;
-margin: auto;
-padding-right:45px;
+      padding: 6px 15px;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            height:45px;
+            width:150px;
+            margin:15px;
 }
   
 body{
@@ -36,7 +46,7 @@ background:white;
 max-width:700px;
 margin:40px auto;
 padding:20px;
-border-radius:15px;
+border-radius:0px;
 }
 
 
@@ -69,8 +79,8 @@ border-radius:8px;
 
 <div class="box">
 
-<h2>📂 File</h2>
-
+<h2>File List</h2>
+<hr>
 <div id="list">
 Loading...
 </div>
